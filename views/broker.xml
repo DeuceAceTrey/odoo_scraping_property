@@ -1,0 +1,154 @@
+<odoo>
+    <data>
+<!--        Views-->
+
+<!--        Top10 view-->
+        <record id="property_top10broker" model="ir.ui.view">
+          <field name="name">view.property_top10broker.tree</field>
+          <field name="model">property_top10broker</field>
+            <field eval="10" name="priority"/>
+          <field name="arch" type="xml">
+             <tree limit="10" default_order="listing_count desc">
+                <field name="broker_name"/>
+                <field name="listing_count"/>
+                <field name="sum_listing_price"/>
+             </tree>
+          </field>
+       </record>
+
+<!--        broker_listing-->
+        <record id="property_view_broker_listing" model="ir.ui.view">
+            <field name="name">view.property_broker_listing.tree</field>
+            <field name="model">property_broker_listing</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                  <tree limit="10" default_order="avg_listing_price desc">
+                        <field name="broker_name"/>
+                        <field name="listing_count"/>
+                        <field name="avg_listing_price"/>
+                  </tree>
+          </field>
+       </record>
+
+        <record id="property_view_avg_listing_per_location" model="ir.ui.view">
+            <field name="name">view.property_broker_listing.tree</field>
+            <field name="model">property_avg_listings_project</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                  <tree limit="10" >
+                        <field name="broker_name"/>
+                        <field name="avg_count_per_project"/>
+                        <field name="avg_listing_price"/>
+                  </tree>
+          </field>
+       </record>
+
+        <record id="property_view_broker_exclusive" model="ir.ui.view">
+            <field name="name">view.property_broker_listing.tree</field>
+            <field name="model">property_broker_exclusive</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                  <tree limit="10" >
+                        <field name="broker_name"/>
+                        <field name="exclusive_count"/>
+                  </tree>
+          </field>
+       </record>
+
+        <record id="property_view_broker_listingdate" model="ir.ui.view">
+            <field name="name">view.property_broker_listingdate.tree</field>
+            <field name="model">property_broker_listingdate</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                  <tree limit="10" >
+                        <field name="broker_name"/>
+                        <field name="listing_date"/>
+                  </tree>
+          </field>
+       </record>
+
+<!--        Actions-->
+
+<!--        Top10-->
+
+        <record id="action_top10broker" model="ir.actions.act_window">
+            <field name="name">Top10 Broker</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_top10broker</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_top10broker"/>
+        </record>
+
+<!--        broker_listing-->
+        <record id="action_broker_listing" model="ir.actions.act_window">
+            <field name="name">Broker listing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_broker_listing</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_broker_listing"/>
+        </record>
+
+        <record id="action_avg_listing_per_location" model="ir.actions.act_window">
+            <field name="name">Avg listing counts per location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_avg_listings_project</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_avg_listing_per_location"/>
+        </record>
+
+        <record id="property.action_broker_exclusive" model="ir.actions.act_window">
+            <field name="name">Avg listing counts per location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_broker_exclusive</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_broker_exclusive"/>
+        </record>
+
+        <record id="property.action_broker_listingdate" model="ir.actions.act_window">
+            <field name="name">Listing Dates per Broker</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_broker_listingdate</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_broker_listingdate"/>
+        </record>
+
+
+
+
+
+
+        <record model="ir.ui.view" id="property_view_broker_co">
+            <field name="name">property broker co</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="propery_dashboard">
+                    <board style="1-1-1">
+                        <column>
+                            <action string="Top10 Broker" name="%(property.action_top10broker)d" />
+                            <action string="Average Counts Per Broker and Location" name="%(property.action_avg_listing_per_location)d"  />
+                            <action string="Listing Dates By Broker" name="%(property.action_broker_listingdate)d" />
+                        </column>
+                        <column>
+                            <action string="Average Listings By Broker" name="%(property.action_broker_listing)d" />
+                            <action string="Exclusive Counts By Broker" name="%(property.action_broker_exclusive)d" />
+                        </column>
+                        <column>
+                            <action name="%(property.action_window)d" string="Type of  Listings By Broker" view_mode="pivot" context="{'pivot_measures': ['__count', 'listing_price', 'transaction_size'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['broker_name', 'property_subtype'], 'orderedBy': [], 'group by': ['broker_name', 'property_subtype'], 'dashboard_merge_domains_contexts': False}" domain="[]" fold="0" limit="10"></action>
+                        </column>
+                    </board>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_broker_co">
+            <field name="name">property broker_co</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="property_view_broker_co"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+<!--        Views-->
+
+<!--        Top10 view-->
+        <record id="property_view_pricing_price_sqft" model="ir.ui.view">
+          <field name="name">view.property_date_counts_per_type.tree</field>
+          <field name="model">property_pricing_price_sqft</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="project asc">
+                    <field name="project" string="Project"/>
+                    <field name="avg_price_sqft" string="Price per sqft"/>
+             </tree>
+          </field>
+       </record>
+
+
+
+<!--        Actions-->
+
+<!--        Top10-->
+
+
+
+<!--        broker_listing-->
+        <record id="action_pricing_price_sqft" model="ir.actions.act_window">
+            <field name="name">Price Range By Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_pricing_price_sqft</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_pricing_price_sqft"/>
+        </record>
+
+
+
+
+        <record model="ir.ui.view" id="property_view_pricing">
+            <field name="name">property  pricing</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="propery_dashboard">
+                    <board style="1">
+
+                        <column>
+                            <action string="Average listed price per Sqft by project" name="%(property.action_pricing_price_sqft)d" />
+                        </column>
+
+                    </board>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="property.action_pricing">
+            <field name="name">property average by date</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="property_view_pricing"/>
+        </record>
+
+    </data>
+</odoo>

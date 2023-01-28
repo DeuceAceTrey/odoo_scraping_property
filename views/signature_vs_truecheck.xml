@@ -1,0 +1,29 @@
+<odoo>
+        <record model="ir.ui.view" id="property_view_signature_vs_truecheck">
+            <field name="name">property signature vs truecheck</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Property Signature VS Truecheck">
+                    <board style="1-1">
+                        <column>
+                            <action name="%(property.action_window)d" string="Property Truecheck" view_mode="pivot" context="{'pivot_measures': ['__count', 'listing_price'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['truecheck_verified'], 'orderedBy': [], 'groupby': [], 'dashboard_merge_domains_contexts': False}" domain="[['truecheck_verified', '=', True]]"/>
+                        </column>
+                        <column>
+                            <action name="%(property.action_window)d" string="Property Signature" view_mode="pivot" context="{'pivot_measures': ['__count', 'listing_price'], 'pivot_column_groupby': ['signature_premium'], 'pivot_row_groupby': [], 'orderedBy': [], 'groupby': [], 'dashboard_merge_domains_contexts': False}" domain="[['signature_premium', '=', True]]"/>
+                        </column>
+                    </board>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="property.action_signature_vs_truecheck">
+            <field name="name">property signature_vs_truecheck</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="property_view_signature_vs_truecheck"/>
+        </record>
+
+</odoo>

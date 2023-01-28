@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+<!--        Views-->
+
+<!--        Top10 view-->
+        <record id="property_view_furnished_price_project" model="ir.ui.view">
+          <field name="name">view.furnished_price_project.tree</field>
+          <field name="model">property_furnished_price_project</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="project asc">
+                    <field name="project" string="Project"/>
+                    <field name="avg_price_sqft" string="Average Price Per Sqft"/>
+             </tree>
+          </field>
+       </record>
+
+        <record id="property_view_furnished_price_location" model="ir.ui.view">
+          <field name="name">view.furnished_price_location.tree</field>
+          <field name="model">property_furnished_price_location</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="emirate asc , master_project asc">
+                    <field name="emirate" string="Emirate"/>
+                 <field name="master_project" string="Master Project"/>
+                    <field name="avg_price_sqft" string="Average Price Per Sqft"/>
+             </tree>
+          </field>
+       </record>
+
+
+
+<!--        Actions-->
+
+<!--        Top10-->
+
+
+
+<!--        broker_listing-->
+        <record id="action_furnished_price_project" model="ir.actions.act_window">
+            <field name="name">Price By Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_furnished_price_project</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_furnished_price_project"/>
+        </record>
+
+        <record id="action_furnished_price_location" model="ir.actions.act_window">
+            <field name="name">Price By Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_furnished_price_location</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_furnished_price_location"/>
+        </record>
+
+
+
+
+        <record model="ir.ui.view" id="property_view_action_furnished">
+            <field name="name">property furnished</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="propery_dashboard">
+                    <board style="1-1">
+                        <column>
+                            <action string="Furnished Price By Project" name="%(property.action_furnished_price_project)d" />
+                        </column>
+                        <column>
+                            <action string="Furnished Price By Location" name="%(property.action_furnished_price_location)d" />
+                        </column>
+
+                    </board>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="property.action_furnished">
+            <field name="name">property furnished</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="property_view_action_furnished"/>
+        </record>
+
+    </data>
+</odoo>

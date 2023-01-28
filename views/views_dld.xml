@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="property.list">
+          <field name="name">property list</field>
+          <field name="model">property.property</field>
+          <field name="arch" type="xml">
+            <tree limit="20">
+                  <field name="isFreeHold" />
+                  <field name="usage" />
+                  <field name="emirate" />
+                  <field name="master_project" />
+                  <field name="project" />
+                  <field name="property_subtype" />
+                  <field name="transaction_size" />
+                  <field name="listing_size" />
+                  <field name="nearest_metro" />
+                  <field name="nearest_mall" />
+                  <field name="nearest_landmark" />
+
+                  <field name="transaction_price" />
+                  <field name="listing_price" />
+                  <field name="transaction_date" />
+                  <field name="listing_date" />
+
+                  <field name="signature_premium"/>
+                  <field name="truecheck_verified"/>
+                  <field name="broker_co"/>
+                  <field name="broker_name"/>
+                  <field name="picture_link"/>
+                  <field name="exclusive"/>
+                  <field name="furnished"/>
+                  <field name="bedrooms"/>
+                  <field name="baths"/>
+                  <field name="agents_name"/>
+                  <field name="origin" />
+            </tree>
+          </field>
+        </record>
+
+        <record id="property_truecheck_view" model="ir.ui.view" >
+            <field name="name">pivot_truecheck</field>
+            <field name="model">property.property</field>
+            <field name="arch" type="xml">
+                <pivot string="Pivot Truecheck View" display_quantity="1">
+                    <field name="truecheck_verified" string="truecheck" filter_domain="[('truecheck_verified','=',True)]" type="row"/>
+                    <field name="signature_premium" string="signature" filter_domain="[('signature_premium','=',True)]" type="row"/>
+                    <field name="listing_price" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="property.action_dld_window">
+          <field name="name">DLD Data Listing</field>
+          <field name="res_model">property.property</field>
+            <field name="domain">[('origin','=','dubailand')]</field>
+          <field name="view_mode">tree,pivot,graph</field>
+            <field name="view_ids" eval="[(5, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('property.list')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('property_truecheck_view')})]"/>
+
+            <field name="limit" >20</field>
+
+        </record>
+    </data>
+</odoo>

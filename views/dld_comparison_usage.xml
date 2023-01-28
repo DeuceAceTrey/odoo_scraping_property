@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="property_view_comparison_usage">
+          <field name="name">property.dld_comparison_usage.view</field>
+          <field name="model">property_dld_comparison_usage</field>
+          <field name="arch" type="xml">
+            <tree limit="20">
+                  <field name="usage" string="Usage"/>
+                <field name="emirate" string="Location"/>
+                  <field name="avg_price" string="Average Sqft Price"/>
+                  <field name="sqft_rate" string="Sqft Rate"/>
+                  <field name="pr_value" string="Value"/>
+            </tree>
+          </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="property.action_dld_comparison_usage">
+          <field name="name">DLD Data Residential / Commercial Comparison</field>
+          <field name="res_model">property_dld_comparison_usage</field>
+          <field name="view_mode">tree,pivot,graph</field>
+            <field name="view_id" ref="property_view_comparison_usage"/>
+
+            <field name="limit" >20</field>
+
+        </record>
+    </data>
+</odoo>

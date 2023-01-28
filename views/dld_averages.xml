@@ -1,0 +1,131 @@
+<odoo>
+    <data>
+<!--        Views-->
+
+<!--        Top10 view-->
+        <record id="property_view_dld_avg_mall" model="ir.ui.view">
+          <field name="name">view.dld_avg_mall.tree</field>
+          <field name="model">property_dld_avg_price_mall</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="nearest_mall asc ">
+                 <field name="nearest_mall" string="Nearest Mall"/>
+                 <field name="avg_price" string="Average Price"/>
+             </tree>
+          </field>
+       </record>
+
+        <record id="property_view_dld_avg_metro" model="ir.ui.view">
+          <field name="name">view.dld_avg_metro.tree</field>
+          <field name="model">property_dld_avg_price_metro</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="nearest_metro asc ">
+                 <field name="nearest_metro" string="Nearest Metro"/>
+                 <field name="avg_price" string="Average Price"/>
+             </tree>
+          </field>
+       </record>
+
+        <record id="property_view_dld_avg_landmark" model="ir.ui.view">
+          <field name="name">view.dld_avg_landmark.tree</field>
+          <field name="model">property_dld_avg_price_landmark</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="nearest_landmark asc ">
+                 <field name="nearest_landmark" string="Nearest Landmark"/>
+                 <field name="avg_price" string="Average Price"/>
+             </tree>
+          </field>
+       </record>
+
+        <record id="property_view_dld_avg_project_date" model="ir.ui.view">
+          <field name="name">view.dld_avg_project_date.tree</field>
+          <field name="model">property_dld_avg_sale_price_project_date</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="project asc , transaction_date asc">
+                 <field name="project" string="Project"/>
+                 <field name="transaction_date" string="Date"/>
+                 <field name="avg_price" string="Average Price"/>
+             </tree>
+          </field>
+       </record>
+
+
+
+
+
+
+<!--        Actions-->
+
+<!--        Top10-->
+
+
+
+<!--        broker_listing-->
+        <record id="action_dld_avg_mall" model="ir.actions.act_window">
+            <field name="name">DLD Average Price Near Each Mall</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_dld_avg_price_mall</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_dld_avg_mall"/>
+        </record>
+
+        <record id="action_dld_avg_metro" model="ir.actions.act_window">
+            <field name="name">DLD Average Price Near Each Metro</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_dld_avg_price_metro</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_dld_avg_metro"/>
+        </record>
+
+        <record id="action_dld_avg_landmark" model="ir.actions.act_window">
+            <field name="name">DLD Average Price Near Each Landmark</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_dld_avg_price_landmark</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_dld_avg_landmark"/>
+        </record>
+
+        <record id="action_dld_avg_project_date" model="ir.actions.act_window">
+            <field name="name">DLD Average Sale Price History By Project and Date</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_dld_avg_sale_price_project_date</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_dld_avg_project_date"/>
+        </record>
+
+
+        <record model="ir.ui.view" id="property_view_action_dld_averages">
+            <field name="name">property dld data averages</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="propery_dashboard">
+                    <board style="1-1">
+                        <column>
+<!--                            <action name="85" string="property_broker_listingdate" view_mode="pivot" context="{'pivot_measures': ['__count'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['listing_date:day'], 'orderedBy': [],  'dashboard_merge_domains_contexts': False}" domain="[]"/>-->
+                            <action string="Avg Price Near Each Mall" name="%(property.action_dld_avg_mall)d" />
+                            <action string="Avg Price Near Each Metro" name="%(property.action_dld_avg_landmark)d" />
+                        </column>
+                        <column>
+                            <action string="Avg Price Near Each Metro" name="%(property.action_dld_avg_metro)d" />
+                            <action string="Avg Sale Price History By Project and Date" name="%(property.action_dld_avg_project_date)d" />
+                        </column>
+                    </board>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="property.action_dld_averages">
+            <field name="name">DLD Data Averages</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="property_view_action_dld_averages"/>
+        </record>
+
+    </data>
+</odoo>

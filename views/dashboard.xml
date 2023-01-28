@@ -1,0 +1,126 @@
+<odoo>
+    <record model="ir.ui.view" id="property_graph_view">
+        <field name="name">property origin graph</field>
+        <field name="model">property.property</field>
+        <field name="type">graph</field>
+        <field name="arch" type="xml">
+            <graph string="propery_origins" type="pie" sample="1">
+                    <field name="origin"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="property_dashboard_list_view" model="ir.ui.view" >
+        <field name="name">dashboard_list</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <tree string="Pivot Signature View" >
+                <field name="isFreeHold" />
+                  <field name="usage" />
+                  <field name="emirate" />
+                  <field name="master_project" />
+                  <field name="project" />
+                  <field name="property_subtype" />
+                  <field name="transaction_size" />
+                  <field name="listing_size" />
+                  <field name="nearest_metro" />
+                  <field name="nearest_mall" />
+                  <field name="nearest_landmark" />
+
+                  <field name="transaction_price" />
+                  <field name="listing_price" />
+                  <field name="transaction_date" />
+                  <field name="listing_date" />
+
+                  <field name="signature_premium"/>
+                  <field name="truecheck_verified"/>
+                  <field name="broker_co"/>
+                  <field name="broker_name"/>
+                  <field name="picture_link"/>
+                  <field name="exclusive"/>
+                  <field name="furnished"/>
+                  <field name="bedrooms"/>
+                  <field name="baths"/>
+                  <field name="agents_name"/>
+                  <field name="origin" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="property_view_top10_broker">
+        <field name="name">property top10 broker</field>
+        <field name="model">property.property</field>
+        <field name="type">pivot</field>
+        <field name="arch" type="xml">
+            <pivot string="propery_top10_broker">
+                    <field name="listing_price"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_dashboard_listing" model="ir.actions.act_window">
+<!--        <field name="sequence" eval="1"/>-->
+        <field name="name">property dashboard listing</field>
+        <field name="res_model">property.property</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="property_dashboard_list_view"/>
+        <field name="limit">10</field>
+    </record>
+
+    <record id="action_top10_broker" model="ir.actions.act_window">
+<!--        <field name="sequence" eval="1"/>-->
+        <field name="name">property_action_top10_broker</field>
+        <field name="res_model">property.property</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="property_view_top10_broker"/>
+        <field name="limit">10</field>
+        <field name="target">new</field>
+    </record>
+
+
+
+    <record id="action_graph_view" model="ir.actions.act_window">
+        <field name="name">property origin graph</field>
+        <field name="res_model">property.property</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="property_graph_view"/>
+    </record>
+
+    <record model="ir.ui.view" id="property_dashboard_view">
+      <field name="name">property dashboard</field>
+      <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="propery_dashboard">
+                <board style="1-1-1">
+                    <column>
+                        <action string="Property Dashborad" name="%(property.action_dashboard_listing)d" />
+                    </column>
+                    <column>
+                        <action string="Property Origins" name="%(property.action_graph_view)d"/>
+<!--                        <action name="%(property.action_top10_broker)d" string="property T10 broker" view_mode="pivot" context="{'pivot_measures': ['__count', 'listing_price'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['broker_name'], 'orderedBy': ['listing_price'],'dashboard_merge_domains_contexts': False}" domain="[]" fold="0" limit="10"/>-->
+                    </column>
+                    <column>
+                        <action name="85" string="property truecheck" view_mode="pivot" context="{'pivot_measures': ['__count', 'listing_price'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['truecheck_verified'], 'orderedBy': [], 'groupby': [], 'dashboard_merge_domains_contexts': False}" domain="[['truecheck_verified', '=', True]]"/>
+                        <action name="85" string="property top10_broker" view_mode="pivot" context="{'pivot_measures': ['__count', 'listing_price'], 'pivot_column_groupby': ['signature_premium'], 'pivot_row_groupby': [], 'orderedBy': [], 'groupby': [], 'dashboard_merge_domains_contexts': False}" domain="[['signature_premium', '=', True]]"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_dashboard">
+        <field name="name">property dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="property_dashboard_view"/>
+    </record>
+    <menuitem
+            name="Dashboard"
+            id="property.menu_dashboard"
+            sequence = "5"
+            action="action_dashboard"
+            parent="property.menu_root"/>
+</odoo>

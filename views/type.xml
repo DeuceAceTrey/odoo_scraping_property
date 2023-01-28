@@ -1,0 +1,69 @@
+<odoo>
+    <data>
+<!--        Views-->
+
+<!--        Top10 view-->
+        <record id="property_view_type_price_range" model="ir.ui.view">
+          <field name="name">view.property_date_counts_per_type.tree</field>
+          <field name="model">property_type_price_range</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+             <tree limit="10" default_order="property_subtype asc">
+                    <field name="property_subtype" string="Type"/>
+                    <field name="max_price" string="Max Price"/>
+                 <field name="min_price" string="Min Price"/>
+             </tree>
+          </field>
+       </record>
+
+
+
+<!--        Actions-->
+
+<!--        Top10-->
+
+
+
+<!--        broker_listing-->
+        <record id="action_type_price_range" model="ir.actions.act_window">
+            <field name="name">Price Range By Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property_type_price_range</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_view_type_price_range"/>
+        </record>
+
+
+
+
+        <record model="ir.ui.view" id="property_view_action_type">
+            <field name="name">property avg price by type</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="propery_dashboard">
+                    <board style="1-1">
+                        <column>
+<!--                            <action name="85" string="property_broker_listingdate" view_mode="pivot" context="{'pivot_measures': ['__count'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['listing_date:day'], 'orderedBy': [],  'dashboard_merge_domains_contexts': False}" domain="[]"/>-->
+                            <action name="%(property.action_window)d" string="property_counts_by_type" view_mode="pivot" context="{'pivot_measures': ['__count'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['property_subtype'], 'orderedBy': [],  'dashboard_merge_domains_contexts': False}" domain="[]"/>
+                        </column>
+                        <column>
+                            <action string="Price Range By Type" name="%(property.action_type_price_range)d" />
+                        </column>
+
+                    </board>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="property.action_type">
+            <field name="name">property average by date</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="property_view_action_type"/>
+        </record>
+
+    </data>
+</odoo>
